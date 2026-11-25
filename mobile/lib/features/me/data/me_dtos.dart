@@ -57,6 +57,14 @@ class PendingInvitation {
   final String? invitedBy;
   final DateTime expiresAt;
 
+  String get inviterDisplayName {
+    final trimmed = invitedBy?.trim();
+    if (trimmed != null && trimmed.isNotEmpty) {
+      return trimmed;
+    }
+    return 'Alguien';
+  }
+
   Map<String, dynamic> toJson() => _$PendingInvitationToJson(this);
 }
 

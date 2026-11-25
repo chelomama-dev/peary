@@ -69,5 +69,40 @@ void main() {
       expect(me.name, isNull);
       expect(me.displayName, 'ana@example.com');
     });
+
+    test('handles nullable invitedBy falling back to Alguien', () {
+      final nullInviter = PendingInvitation.fromJson({
+        'invitationId': 'inv-1',
+        'group': {
+          'groupId': 'grp-1',
+          'name': 'Piso de la abuela',
+        },
+        'invitedBy': null,
+        'expiresAt': '2026-12-02T10:00:00Z',
+      });
+      final blankInviter = PendingInvitation.fromJson({
+        'invitationId': 'inv-2',
+        'group': {
+          'groupId': 'grp-2',
+          'name': 'Casa',
+        },
+        'invitedBy': '   ',
+        'expiresAt': '2026-12-02T10:00:00Z',
+      });
+      final namedInviter = PendingInvitation.fromJson({
+        'invitationId': 'inv-3',
+        'group': {
+          'groupId': 'grp-3',
+          'name': 'Playa',
+        },
+        'invitedBy': 'Lucía',
+        'expiresAt': '2026-12-02T10:00:00Z',
+      });
+
+      expect(nullInviter.invitedBy, isNull);
+      expect(nullInviter.inviterDisplayName, 'Alguien');
+      expect(blankInviter.inviterDisplayName, 'Alguien');
+      expect(namedInviter.inviterDisplayName, 'Lucía');
+    });
   });
 }

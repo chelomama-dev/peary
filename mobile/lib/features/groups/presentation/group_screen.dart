@@ -163,10 +163,7 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                invitation.invitedBy != null &&
-                                        invitation.invitedBy!.trim().isNotEmpty
-                                    ? 'Invitado por ${invitation.invitedBy} · Caduca el ${formatUtcDateLocal(invitation.expiresAt)}'
-                                    : 'Caduca el ${formatUtcDateLocal(invitation.expiresAt)}',
+                                'Invitado por ${invitation.inviterDisplayName} · Caduca el ${formatUtcDateLocal(invitation.expiresAt)}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall

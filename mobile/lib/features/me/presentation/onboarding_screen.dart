@@ -215,10 +215,8 @@ class _InvitationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final invitedBy = invitation.invitedBy?.trim();
-    final subtitle = (invitedBy != null && invitedBy.isNotEmpty)
-        ? 'Invitado por $invitedBy · Caduca el ${formatUtcDateLocal(invitation.expiresAt)}'
-        : 'Caduca el ${formatUtcDateLocal(invitation.expiresAt)}';
+    final subtitle =
+        'Invitado por ${invitation.inviterDisplayName} · Caduca el ${formatUtcDateLocal(invitation.expiresAt)}';
 
     return Card(
       child: Padding(
