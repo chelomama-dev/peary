@@ -115,6 +115,35 @@ void main() {
         TaskSectionKind.noDate,
       ]);
     });
+
+    test('uses fixed now and explicit today to assign sections deterministically',
+        () {
+      final tasks = [
+        _task(id: 'd24', title: 'Día 24', dueDate: '2026-11-24'),
+        _task(id: 'd25', title: 'Día 25', dueDate: '2026-11-25'),
+        _task(id: 'd26', title: 'Día 26', dueDate: '2026-11-26'),
+      ];
+
+      final on24 = groupOpenTasks(tasks, now: DateTime(2026, 11, 24, 23, 59));
+      expect(on24.map((s) => s.kind), [
+        TaskSectionKind.today,
+        TaskSectionKind.upcoming,
+      ]);
+      expect(on24[0].tasks.map((t) => t.taskId), ['d24']);
+      expect(on24[1].tasks.map((t) => t.taskId), ['d25', 'd26']);
+
+      final on26 = groupOpenTasks(
+        tasks,
+        today: DateTime(2026, 11, 26),
+        now: DateTime(2026, 11, 24, 9, 0),
+      );
+      expect(on26.map((s) => s.kind), [
+        TaskSectionKind.overdue,
+        TaskSectionKind.today,
+      ]);
+      expect(on26[0].tasks.map((t) => t.taskId), ['d24', 'd25']);
+      expect(on26[1].tasks.map((t) => t.taskId), ['d26']);
+    });
   });
 
   group('compareDoneTasks', () {

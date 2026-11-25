@@ -64,12 +64,20 @@ int compareDoneTasks(TaskItem a, TaskItem b) {
 /// Groups open tasks into "Atrasadas", "Hoy", "Próximamente" and "Sin fecha",
 /// preserving the contract ordering within each section and omitting empty
 /// sections.
+///
+/// Pass [today] to provide the calendar date explicitly (for example, once the
+/// group's IANA `timeZone` is resolved), or [now] to derive it from a fixed
+/// reference instant.
 List<TaskSection> groupOpenTasks(
   List<TaskItem> tasks, {
+  DateTime? today,
   DateTime? now,
 }) {
-  final reference = now ?? DateTime.now();
-  final today = DateTime(reference.year, reference.month, reference.day);
+  // TODO: Derive `today` from the group's IANA `timeZone` instead of the
+  // device clock once a time zone package is added (`dueDate` is in the
+  // group's time zone per `docs/api.md`).
+  final reference = today ?? now ?? DateTime.now();
+  final todayDate = DateTime(reference.year, reference.month, reference.day);
 
   final sorted = [...tasks]..sort(compareOpenTasks);
 
@@ -82,9 +90,9 @@ List<TaskSection> groupOpenTasks(
     final parsedDate = parseApiDate(task.dueDate);
     if (parsedDate == null) {
       noDate.add(task);
-    } else if (parsedDate.isBefore(today)) {
+    } else if (parsedDate.isBefore(todayDate)) {
       overdue.add(task);
-    } else if (parsedDate == today) {
+    } else if (parsedDate == todayDate) {
       todayItems.add(task);
     } else {
       upcoming.add(task);

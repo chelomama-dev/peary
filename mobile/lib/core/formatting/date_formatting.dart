@@ -49,14 +49,17 @@ String formatApiTime(TimeOfDay time) {
 String formatDueDateLabel(
   String dueDate, {
   String? dueTime,
+  DateTime? today,
   DateTime? now,
 }) {
   final parsed = parseApiDate(dueDate);
   if (parsed == null) return dueDate;
 
-  final reference = now ?? DateTime.now();
-  final today = DateTime(reference.year, reference.month, reference.day);
-  final difference = parsed.difference(today).inDays;
+  // TODO: Derive `today` from the group's IANA `timeZone` instead of the
+  // device clock once a time zone package is added.
+  final reference = today ?? now ?? DateTime.now();
+  final todayDate = DateTime(reference.year, reference.month, reference.day);
+  final difference = parsed.difference(todayDate).inDays;
 
   final String datePart;
   if (difference == 0) {
@@ -65,7 +68,7 @@ String formatDueDateLabel(
     datePart = 'Mañana';
   } else if (difference == -1) {
     datePart = 'Ayer';
-  } else if (parsed.year == today.year) {
+  } else if (parsed.year == todayDate.year) {
     datePart = DateFormat('EEE, d MMM', kSpanishLocale).format(parsed);
   } else {
     datePart = DateFormat('d MMM yyyy', kSpanishLocale).format(parsed);
