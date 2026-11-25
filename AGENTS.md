@@ -55,9 +55,20 @@ squash merged.
 - Commit messages in English, in the imperative, starting with a capital letter and no prefixes
   (`Add the groups endpoints`, not `feat: added endpoint`). If the why isn't obvious, explain it in the body.
   One logical change per commit.
+- **Claude runs the whole git flow** for the repo: branches, pushes, pull requests, reviews, squash merges and
+  cleanup (`.claude/skills/github-flow`). Gemini and subagents push their own branch and open a PR, but never
+  merge.
+- `main` is protected by a ruleset: PR only, squash only, linear history, and the CI checks `backend` and
+  `frontend` must pass on a branch that is up to date with `main`. Nobody bypasses it.
 - Merge only when the build, the tests and the CI checks are green. If something fails or is unclear, stop and
   tell the owner.
 - Never force-push to `main` or rewrite its history.
+
+## Team
+
+Claude leads the team: it splits each roadmap item between itself, Gemini and its own subagents, reviews every PR
+and merges them (`.claude/skills/peary-team`). Gemini may use its own subagents inside a task. The owner handles
+what needs a human: Azure and Entra in the portal, secrets and keys, product decisions and releases.
 
 ## Repository layout
 
