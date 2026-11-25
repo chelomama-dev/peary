@@ -58,8 +58,10 @@ Bad:
 - The sign-in page is on `<tenant>.ciamlogin.com`. A custom domain needs Azure Front Door, which has a fixed
   monthly fee. Accepted; company branding is applied instead.
 - The external tenant can't be managed with Bicep: it's created once in the Entra admin center.
-- Local development of the login depends on the external tenant. The local API can run without auth (as in
-  Finances Hub), and API tests sign their own tokens.
+- Local development of the login depends on the external tenant. Without the `Entra` configuration section, and
+  only in Development, the API signs every request in as the user its `X-Dev-User-Id`, `X-Dev-User-Email` and
+  `X-Dev-User-Name` headers describe (or a default one), so several family members can be simulated with no
+  tenant. Outside Development the API refuses to start without the section. API tests sign their own tokens.
 
 ## Alternatives considered
 

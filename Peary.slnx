@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Peary.Api/Peary.Api.csproj" />
+    <Project Path="src/Peary.AppHost/Peary.AppHost.csproj" />
+    <Project Path="src/Peary.Application/Peary.Application.csproj" />
+    <Project Path="src/Peary.Domain/Peary.Domain.csproj" />
+    <Project Path="src/Peary.Infrastructure/Peary.Infrastructure.csproj" />
+    <Project Path="src/Peary.ServiceDefaults/Peary.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Peary.Api.Tests/Peary.Api.Tests.csproj" />
+  </Folder>
+</Solution>
