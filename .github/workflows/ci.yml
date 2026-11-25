@@ -42,7 +42,7 @@ jobs:
 
       # The API tests start SQL Server with Testcontainers; the runner has Docker
       - name: Test
-        run: dotnet test --no-build --configuration Release --report-xunit-trx --results-directory TestResults
+        run: dotnet test --no-build --configuration Release --logger trx --results-directory TestResults
 
       - name: Test report
         if: ${{ !cancelled() }}
