@@ -53,3 +53,7 @@ app.*.map.json
 # Local environment and Azure configuration
 /config/*.json
 !/config/azure.example.json
+
+# Keep Android Gradle source sets (root .gitignore ignores .NET [Dd]ebug/ and [Rr]elease/)
+!/android/app/src/debug/
+!/android/app/src/release/
