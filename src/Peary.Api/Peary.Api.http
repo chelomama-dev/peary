@@ -1,0 +1,9 @@
+# Local requests against the API (http profile). Without the Entra section the API signs every request in as the
+# user the X-Dev-User-* headers describe (see Common/Authentication.cs), so you can act as different members.
+@api = http://localhost:5080
+
+GET {{api}}/health
+
+###
+
+GET {{api}}/openapi/v1.json

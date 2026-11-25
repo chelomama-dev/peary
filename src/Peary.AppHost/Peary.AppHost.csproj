@@ -1,0 +1,22 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.6.5">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Peary.Api\Peary.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="13.6.5" />
+    <!-- Pin: Aspire 13.6.x still pulls 10.0.12, vulnerable to CVE-2026-84008 and CVE-2026-70162 (same pin as Plumy). -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AspireUseCliBundle>true</AspireUseCliBundle>
+    <UserSecretsId>80d3e8d9-5012-4f23-b483-6d6e94ca0036</UserSecretsId>
+  </PropertyGroup>
+
+</Project>
