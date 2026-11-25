@@ -103,6 +103,8 @@ The app calls it right after signing in and when it comes back to the foreground
 
 - `name`: *nullable* if the token has none.
 - `role`: `admin` or `member`.
+- `invitations[].invitedBy`: *nullable*, the inviter's name, `null` if their token had none (the app then shows
+  "Alguien").
 - `groups` is ordered by name; `invitations` lists only open (not expired) invitations sent to the user's email.
 
 ### Register this phone for push notifications
@@ -209,6 +211,8 @@ An admin can remove anyone; any member can remove themselves (leave). `204 No Co
 }
 ```
 
+`invitedBy` is *nullable*, as in `GET /api/me`.
+
 ### List open invitations (admin)
 
 `GET /api/groups/{groupId}/invitations` → `200 OK` with `{ "items": [ invitation, ... ] }`, newest first.
@@ -287,8 +291,9 @@ keeps their name here.
 | `cursor` | the `nextCursor` of the previous page | first page |
 | `limit` | 1 to 100 | 50 |
 
-Open tasks come by `dueDate` and `dueTime` (the earliest first, overdue included), then the ones with no date by
-`createdAt`. Done tasks come by `completedAt`, newest first.
+Open tasks come by `dueDate` and `dueTime` (the earliest first, overdue included); on the same date, tasks for the
+whole day (`dueTime` `null`) come before the ones with a time, and ties go by `createdAt`. Then the ones with no
+date, by `createdAt`. Done tasks come by `completedAt`, newest first.
 
 `200 OK`
 
@@ -348,7 +353,8 @@ Marks it `done` by the caller. If it repeats, a new open task is created with th
 ### Reopen a task
 
 `POST /api/groups/{groupId}/tasks/{taskId}/reopen` → `200 OK` with the task, back to `open`. It doesn't delete
-the `next` task a completion created.
+the `next` task a completion created. Reopening a task that is already open is `409`, like completing one that is
+already done.
 
 ## Push notifications
 
@@ -364,3 +370,5 @@ The title and body come already written in Spanish ("Lucía te ha asignado: Reco
 ## Changelog
 
 - 2026-11-25: first draft for v0.1: me, devices, groups, members, invitations and tasks.
+- 2026-11-25: `invitedBy` is nullable; whole-day tasks sort before timed ones on the same date; reopening an open
+  task is `409` (questions from the app's first PR).
